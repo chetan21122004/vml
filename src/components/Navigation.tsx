@@ -65,7 +65,7 @@ const Navigation = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-      
+
       // Calculate scroll progress
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -103,7 +103,7 @@ const Navigation = () => {
   ];
 
   return (
-    <nav 
+    <nav
       className={cn(
         "fixed w-full top-0 z-50 transition-all duration-300 bg-background backdrop-blur-sm"
       )}
@@ -111,12 +111,12 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <div className="flex-shrink-0 z-40 transition-transform bg-white rounded-full  duration-300">
-            <a href="#home" className="flex m-3 mt-8 items-center">
-              <img 
-                src={vmlLogo} 
-                alt="VML India" 
-                className="h-14 md:h-36 w-auto " 
+          <div className="flex-shrink-0 z-40 transition-transform mt-10 bg-white rounded-full shadow duration-300">
+            <a href="#home" className="flex m-3 items-center">
+              <img
+                src={vmlLogo}
+                alt="VML India"
+                className="h-14 md:h-36 w-auto "
               />
             </a>
           </div>
@@ -135,9 +135,9 @@ const Navigation = () => {
             >
               Home
             </a>
-            
+
             {/* Services Dropdown */}
-            <div 
+            <div
               className="relative"
               onMouseEnter={() => setIsServicesOpen(true)}
               onMouseLeave={() => setIsServicesOpen(false)}
@@ -155,24 +155,24 @@ const Navigation = () => {
               </button>
 
               {/* Services Mega Menu */}
-              <div 
+              <div
                 className={cn(
                   "absolute top-full left-1/2 -translate-x-1/2 w-[800px] bg-white rounded-xl shadow-xl border border-border p-6 transition-all duration-300 transform",
-                  isServicesOpen 
-                    ? "opacity-100 translate-y-2 visible" 
+                  isServicesOpen
+                    ? "opacity-100 translate-y-2 visible"
                     : "opacity-0 translate-y-4 invisible"
                 )}
               >
                 <div className="grid grid-cols-2 gap-6">
                   {services.map((service, index) => (
-                    <Link 
+                    <Link
                       key={index}
                       to={service.path}
                       className="group flex items-start space-x-4 p-4 rounded-lg hover:bg-slate-50 transition-colors duration-200"
                     >
                       <div className="relative w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
-                        <img 
-                          src={service.image} 
+                        <img
+                          src={service.image}
                           alt={service.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
@@ -190,19 +190,7 @@ const Navigation = () => {
                     </Link>
                   ))}
                 </div>
-                <div className="mt-6 pt-6 border-t border-border">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-slate-600">
-                      Explore our comprehensive logistics solutions
-                    </p>
-                    <Button 
-                      size="sm"
-                      className="bg-primary hover:bg-primary/90 text-white"
-                    >
-                      View All Services
-                    </Button>
-                  </div>
-                </div>
+
               </div>
             </div>
 
@@ -243,7 +231,7 @@ const Navigation = () => {
               Contact
             </a>
             <a href="#contact">
-              <Button 
+              <Button
                 size="sm"
                 className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
               >
@@ -270,7 +258,7 @@ const Navigation = () => {
         </div>
 
         {/* Mobile Menu */}
-        <div 
+        <div
           className={cn(
             "md:hidden overflow-hidden transition-all duration-300 ease-in-out",
             isMobileMenuOpen ? "max-h-[800px]" : "max-h-0"
@@ -354,8 +342,8 @@ const Navigation = () => {
 
             {/* CTA Section */}
             <div className="pt-3 px-4">
-              <Button 
-                size="sm" 
+              <Button
+                size="sm"
                 className="w-full bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg transition-all duration-300"
               >
                 Get Quote
@@ -364,10 +352,10 @@ const Navigation = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Progressive Scroll Border */}
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-slate-200/30">
-        <div 
+        <div
           className="h-full bg-gradient-to-r from-primary to-blue-600 transition-all duration-150 ease-out"
           style={{ width: `${scrollProgress}%` }}
         />

@@ -1,12 +1,26 @@
 import { Facebook, Twitter, Linkedin, Instagram, MapPin, Phone, Mail } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 
 const Footer = () => {
+  const footerRef = useRef(null);
+  const isInView = useInView(footerRef, { once: true, margin: "-100px" });
   return (
-    <footer className="bg-foreground text-background">
+    <footer ref={footerRef} className="bg-foreground text-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ duration: 0.8, staggerChildren: 0.1 }}
+        >
           {/* Company Info */}
-          <div className="space-y-4">
+          <motion.div 
+            className="space-y-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             <h3 className="text-2xl font-bold text-gradient bg-white bg-clip-text text-transparent">
               VML India
             </h3>
@@ -27,10 +41,15 @@ const Footer = () => {
                 <Instagram className="h-5 w-5 text-primary hover:text-primary-foreground" />
               </a>
             </div>
-          </div>
+          </motion.div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
+          <motion.div 
+            className="space-y-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             <h4 className="text-lg font-semibold text-background">Quick Links</h4>
             <ul className="space-y-2">
               <li><a href="#home" className="text-background/80 hover:text-primary transition-colors">Home</a></li>
@@ -39,10 +58,15 @@ const Footer = () => {
               <li><a href="#about" className="text-background/80 hover:text-primary transition-colors">About Us</a></li>
               <li><a href="#contact" className="text-background/80 hover:text-primary transition-colors">Contact</a></li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Services */}
-          <div className="space-y-4">
+          <motion.div 
+            className="space-y-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             <h4 className="text-lg font-semibold text-background">Our Services</h4>
             <ul className="space-y-2">
               <li><a href="#services" className="text-background/80 hover:text-primary transition-colors">Sea Freight</a></li>
@@ -52,10 +76,15 @@ const Footer = () => {
               <li><a href="#services" className="text-background/80 hover:text-primary transition-colors">Container Booking</a></li>
               <li><a href="#services" className="text-background/80 hover:text-primary transition-colors">Transportation</a></li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Contact Info */}
-          <div className="space-y-4">
+          <motion.div 
+            className="space-y-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             <h4 className="text-lg font-semibold text-background">Contact Info</h4>
             <div className="space-y-3">
               <div className="flex items-start space-x-3">
@@ -74,8 +103,8 @@ const Footer = () => {
                 <p className="text-background/80">info@globalship.com</p>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Bottom Bar */}
         <div className="border-t border-background/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">

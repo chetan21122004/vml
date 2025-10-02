@@ -1,7 +1,85 @@
-import { Package, Users, Globe, Clock, TrendingUp, Award } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Package, Users, Globe, Clock, TrendingUp, Award, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Stats = () => {
+  const statsRef = useRef(null);
+  const isInView = useInView(statsRef, { once: true, margin: "-100px" });
+  const [counters, setCounters] = useState([0, 0, 0, 0]);
+  const isMobile = useIsMobile();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
+  // Counter animation effect
+  useEffect(() => {
+    if (!isInView) return;
+    
+    const targets = [25000, 5000, 150, 99];
+    const duration = 2000; // 2 seconds
+    const steps = 60; // 60 steps for smooth animation
+    const stepDuration = duration / steps;
+    
+    let currentStep = 0;
+    const interval = setInterval(() => {
+      currentStep++;
+      const progress = currentStep / steps;
+      
+      setCounters(targets.map(target => 
+        Math.floor(target * Math.min(progress, 1))
+      ));
+      
+      if (currentStep >= steps) {
+        clearInterval(interval);
+        setCounters(targets);
+      }
+    }, stepDuration);
+    
+    return () => clearInterval(interval);
+  }, [isInView]);
+
+  // Carousel functions for mobile
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % Math.ceil(stats.length / 2));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + Math.ceil(stats.length / 2)) % Math.ceil(stats.length / 2));
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  // Touch handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) nextSlide();
+    if (isRightSwipe) prevSlide();
+  };
+
+  // Auto-slide for mobile
+  useEffect(() => {
+    if (isMobile) {
+      const interval = setInterval(nextSlide, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [isMobile, currentSlide]);
+
   const stats = [
     {
       icon: Package,
@@ -86,52 +164,144 @@ const Stats = () => {
           </motion.div>
         </div>
 
-        {/* Stats Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-primary/20"
+        {/* Stats Layout - Grid for Desktop, Carousel for Mobile */}
+        {isMobile ? (
+          /* Mobile Carousel - Show 2 stats per slide */
+          <div className="relative">
+            <div 
+              className="overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
-              {/* Background Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div className="relative">
-                {/* Icon */}
-                <div className="mb-6">
-                  <div className="bg-slate-50 group-hover:bg-primary/10 rounded-full p-4 w-16 h-16 flex items-center justify-center transition-colors duration-300">
-                    <stat.icon className={`h-8 w-8 ${stat.color} group-hover:scale-110 transition-transform duration-300`} />
+              <motion.div 
+                className="flex transition-transform duration-300 ease-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {Array.from({ length: Math.ceil(stats.length / 2) }, (_, slideIndex) => (
+                  <div key={slideIndex} className="w-full flex-shrink-0 px-2">
+                    <div className="grid grid-cols-2 gap-4">
+                      {stats.slice(slideIndex * 2, slideIndex * 2 + 2).map((stat, index) => (
+                        <motion.div
+                          key={slideIndex * 2 + index}
+                          variants={itemVariants}
+                          initial="hidden"
+                          whileInView="visible"
+                          viewport={{ once: true }}
+                          className="group relative bg-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-500 border border-slate-100 hover:border-primary/20"
+                        >
+                          {/* Background Gradient */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                          
+                          <div className="relative text-center">
+                            {/* Icon */}
+                            <div className="mb-3">
+                              <div className="bg-slate-50 group-hover:bg-primary/10 rounded-full p-3 w-12 h-12 flex items-center justify-center transition-colors duration-300 mx-auto">
+                                <stat.icon className={`h-6 w-6 ${stat.color} group-hover:scale-110 transition-transform duration-300`} />
+                              </div>
+                            </div>
+
+                            {/* Value */}
+                            <div className="mb-3">
+                              <h3 className="text-2xl font-bold text-slate-900 mb-1 group-hover:text-primary transition-colors duration-300">
+                                {stat.value}
+                              </h3>
+                              <h4 className="text-sm font-semibold text-slate-700 mb-1">
+                                {stat.label}
+                              </h4>
+                            </div>
+
+                            {/* Description */}
+                            <p className="text-xs text-slate-600 leading-relaxed">
+                              {stat.description}
+                            </p>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                ))}
+              </motion.div>
+            </div>
 
-                {/* Value */}
-                <div className="mb-4">
-                  <h3 className="text-4xl font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors duration-300">
-                    {stat.value}
-                  </h3>
-                  <h4 className="text-xl font-semibold text-slate-700 mb-2">
-                    {stat.label}
-                  </h4>
-                </div>
-
-                {/* Description */}
-                <p className="text-slate-600 leading-relaxed">
-                  {stat.description}
-                </p>
-
-                {/* Decorative Element */}
-                <div className="absolute top-4 right-4 w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            {/* Mobile Navigation */}
+            <div className="flex justify-between items-center mt-6">
+              <button
+                onClick={prevSlide}
+                className="bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
+              >
+                <ChevronLeft className="h-5 w-5 text-slate-600" />
+              </button>
+              
+              {/* Dots Indicator */}
+              <div className="flex space-x-2">
+                {Array.from({ length: Math.ceil(stats.length / 2) }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentSlide ? 'bg-primary scale-125' : 'bg-slate-300'
+                    }`}
+                  />
+                ))}
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
+
+              <button
+                onClick={nextSlide}
+                className="bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
+              >
+                <ChevronRight className="h-5 w-5 text-slate-600" />
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* Desktop Grid */
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {stats.map((stat, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-primary/20"
+              >
+                {/* Background Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative">
+                  {/* Icon */}
+                  <div className="mb-6">
+                    <div className="bg-slate-50 group-hover:bg-primary/10 rounded-full p-4 w-16 h-16 flex items-center justify-center transition-colors duration-300">
+                      <stat.icon className={`h-8 w-8 ${stat.color} group-hover:scale-110 transition-transform duration-300`} />
+                    </div>
+                  </div>
+
+                  {/* Value */}
+                  <div className="mb-4">
+                    <h3 className="text-4xl font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors duration-300">
+                      {stat.value}
+                    </h3>
+                    <h4 className="text-xl font-semibold text-slate-700 mb-2">
+                      {stat.label}
+                    </h4>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-slate-600 leading-relaxed">
+                    {stat.description}
+                  </p>
+
+                  {/* Decorative Element */}
+                  <div className="absolute top-4 right-4 w-2 h-2 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
 
         {/* Bottom CTA */}
         <motion.div

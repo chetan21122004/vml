@@ -2,16 +2,27 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
+import { motion, useInView } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
 import { 
   Truck, Ship, Plane, ArrowRight, Package, FileCheck, Container,
-  Clock, Shield, Globe, CheckCircle, Star, Users, MapPin, Phone
+  Clock, Shield, Globe, CheckCircle, Star, Users, MapPin, Phone,
+  ChevronLeft, ChevronRight
 } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import containerTruck from '@/assets/container-truck.jpg';
 import cargoPlane from '@/assets/cargo-plane.jpg';
 import heroImage from '@/assets/hero-container-ship.jpg';
 import warehouseImage from '@/assets/warehouse-operations.jpg';
 
 const Services = () => {
+  const servicesRef = useRef(null);
+  const isInView = useInView(servicesRef, { once: true, margin: "-100px" });
+  const isMobile = useIsMobile();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  
   const services = [
     {
       id: 'sea-freight',
@@ -266,27 +277,239 @@ const Services = () => {
     }
   ];
 
+  // Carousel functions
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % services.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + services.length) % services.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  // Touch handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) nextSlide();
+    if (isRightSwipe) prevSlide();
+  };
+
+  // Auto-slide for mobile
+  useEffect(() => {
+    if (isMobile) {
+      const interval = setInterval(nextSlide, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [isMobile, currentSlide]);
+
   return (
-    <section id="services" className="py-20 bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <section ref={servicesRef} id="services" className="py-20 bg-gradient-to-br from-slate-50 via-white to-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
-            Professional Services
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+              Professional Services
+            </Badge>
+          </motion.div>
+          <motion.h2 
+            className="text-4xl md:text-5xl font-bold text-slate-900 mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
             Comprehensive <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">Logistics Solutions</span>
-          </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
             From sea freight to air cargo, we provide end-to-end logistics services 
             tailored to meet your unique shipping requirements with professional excellence.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        {/* Services Grid */}
+        {/* Services Layout - Grid for Desktop, Carousel for Mobile */}
+        {isMobile ? (
+          /* Mobile Carousel */
+          <div className="relative">
+            <div 
+              className="overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <motion.div 
+                className="flex transition-transform duration-300 ease-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {services.map((service, index) => (
+                  <div key={index} className="w-full flex-shrink-0 px-2">
+                    <motion.div
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                      transition={{ duration: 0.6, delay: 0.8 + (index * 0.1) }}
+                    >
+                      <Card className="group overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border-0 bg-white mx-2">
+                        {/* Service Image */}
+                        <div className="relative h-48 overflow-hidden">
+                          <img
+                            src={service.image}
+                            alt={service.title}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                          
+                          {/* Service Icon */}
+                          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg">
+                            <service.icon className="h-5 w-5 text-primary" />
+                          </div>
+
+                          {/* Rating & Clients */}
+                          <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 shadow-lg">
+                            <div className="flex items-center space-x-1">
+                              <Star className="h-3 w-3 text-yellow-500 fill-current" />
+                              <span className="text-xs font-semibold text-slate-700">{service.rating}</span>
+                            </div>
+                          </div>
+
+                          {/* Price Badge */}
+                          <div className="absolute bottom-3 left-3 bg-primary text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
+                            {service.price}
+                          </div>
+                        </div>
+
+                        {/* Service Content */}
+                        <div className="p-4">
+                          <div className="mb-3">
+                            <h3 className="text-lg font-bold text-slate-900 mb-1 group-hover:text-primary transition-colors">
+                              {service.title}
+                            </h3>
+                            <p className="text-xs text-primary font-medium">{service.subtitle}</p>
+                          </div>
+
+                          <p className="text-slate-600 mb-3 leading-relaxed text-sm">
+                            {service.description}
+                          </p>
+
+                          {/* Features */}
+                          <div className="space-y-1 mb-4">
+                            {service.features.slice(0, 2).map((feature, idx) => (
+                              <div key={idx} className="flex items-center text-xs text-slate-600">
+                                <CheckCircle className="h-3 w-3 text-green-500 mr-2 flex-shrink-0" />
+                                {feature}
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Stats */}
+                          <div className="flex items-center justify-between mb-4 p-2 bg-slate-50 rounded-lg">
+                            <div className="flex items-center space-x-1">
+                              <Users className="h-3 w-3 text-slate-500" />
+                              <span className="text-xs text-slate-600">{service.clients}</span>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                              <Clock className="h-3 w-3 text-slate-500" />
+                              <span className="text-xs text-slate-600">24/7</span>
+                            </div>
+                          </div>
+
+                          {/* CTA Buttons */}
+                          <div className="space-y-2">
+                            <Link to={service.path}>
+                              <Button 
+                                size="sm"
+                                className="w-full bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                              >
+                                View Details
+                                <ArrowRight className="ml-2 h-3 w-3" />
+                              </Button>
+                            </Link>
+                            <Button 
+                              size="sm"
+                              variant="outline" 
+                              className="w-full border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300"
+                            >
+                              Get Quote
+                              <Phone className="ml-2 h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      </Card>
+                    </motion.div>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Mobile Navigation */}
+            <div className="flex justify-between items-center mt-6">
+              <button
+                onClick={prevSlide}
+                className="bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
+              >
+                <ChevronLeft className="h-5 w-5 text-slate-600" />
+              </button>
+              
+              {/* Dots Indicator */}
+              <div className="flex space-x-2">
+                {services.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentSlide ? 'bg-primary scale-125' : 'bg-slate-300'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={nextSlide}
+                className="bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
+              >
+                <ChevronRight className="h-5 w-5 text-slate-600" />
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* Desktop Grid */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <Card key={index} className="group overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-0 bg-white">
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+              transition={{ duration: 0.6, delay: 0.8 + (index * 0.1) }}
+            >
+              <Card className="group overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-0 bg-white">
               {/* Service Image */}
               <div className="relative h-56 overflow-hidden">
                 <img
@@ -370,8 +593,10 @@ const Services = () => {
                 </div>
               </div>
             </Card>
+            </motion.div>
           ))}
         </div>
+        )}
 
       </div>
     </section>

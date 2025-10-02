@@ -1,9 +1,11 @@
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 
 const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const testimonialsRef = useRef(null);
+  const isInView = useInView(testimonialsRef, { once: true, margin: "-100px" });
 
   const testimonials = [
     {
@@ -75,15 +77,19 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section ref={testimonialsRef} className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ duration: 0.8 }}
+        >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
               What Our <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">Clients Say</span>
@@ -92,7 +98,7 @@ const Testimonials = () => {
               Don't just take our word for it. Here's what our satisfied customers have to say about our logistics services
             </p>
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Testimonials Carousel */}
         <div className="relative">
@@ -103,10 +109,10 @@ const Testimonials = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
             >
               {/* Main Testimonial */}
-              <div className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-8 shadow-lg border border-slate-100">
+              <div className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 lg:p-8 shadow-lg border border-slate-100">
                 <div className="flex items-center mb-6">
                   <Quote className="h-8 w-8 text-primary/30 mr-4" />
                   <div className="flex space-x-1">
@@ -152,8 +158,8 @@ const Testimonials = () => {
                 </div>
               </div>
 
-              {/* Secondary Testimonials */}
-              <div className="space-y-6">
+              {/* Secondary Testimonials - Hidden on mobile */}
+              <div className="hidden lg:block space-y-6">
                 {testimonials
                   .slice(currentIndex + 1, currentIndex + 3)
                   .concat(testimonials.slice(0, Math.max(0, currentIndex + 3 - testimonials.length)))
@@ -187,32 +193,56 @@ const Testimonials = () => {
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation Buttons */}
+          {/* Navigation Buttons - Hidden on mobile, shown on desktop */}
           <button
             onClick={prevTestimonial}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
+            className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
           >
             <ChevronLeft className="h-6 w-6 text-slate-600" />
           </button>
           <button
             onClick={nextTestimonial}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
+            className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
           >
             <ChevronRight className="h-6 w-6 text-slate-600" />
           </button>
         </div>
 
-        {/* Dots Indicator */}
-        <div className="flex justify-center space-x-2 mt-12">
-          {testimonials.map((_, index) => (
+        {/* Mobile Navigation & Dots Indicator */}
+        <div className="mt-8">
+          {/* Mobile Navigation Buttons */}
+          <div className="flex justify-between items-center lg:hidden mb-6">
             <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentIndex ? 'bg-primary scale-125' : 'bg-slate-300 hover:bg-slate-400'
-              }`}
-            />
-          ))}
+              onClick={prevTestimonial}
+              className="bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
+            >
+              <ChevronLeft className="h-5 w-5 text-slate-600" />
+            </button>
+            
+            <span className="text-sm text-slate-600 font-medium">
+              {currentIndex + 1} of {testimonials.length}
+            </span>
+            
+            <button
+              onClick={nextTestimonial}
+              className="bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
+            >
+              <ChevronRight className="h-5 w-5 text-slate-600" />
+            </button>
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center space-x-2">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex ? 'bg-primary scale-125' : 'bg-slate-300 hover:bg-slate-400'
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Bottom Stats */}

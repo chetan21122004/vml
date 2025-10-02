@@ -1,7 +1,16 @@
-import { Shield, Clock, Globe, Users, Award, Headphones } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Shield, Clock, Globe, Users, Award, Headphones, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const WhyChooseUs = () => {
+  const whyRef = useRef(null);
+  const isInView = useInView(whyRef, { once: true, margin: "-100px" });
+  const isMobile = useIsMobile();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  
   const reasons = [
     {
       icon: Shield,
@@ -40,6 +49,47 @@ const WhyChooseUs = () => {
       features: ["24/7 Availability", "Multi-language", "Instant Response"]
     }
   ];
+
+  // Carousel functions
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % reasons.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + reasons.length) % reasons.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  // Touch handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) nextSlide();
+    if (isRightSwipe) prevSlide();
+  };
+
+  // Auto-slide for mobile
+  useEffect(() => {
+    if (isMobile) {
+      const interval = setInterval(nextSlide, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [isMobile, currentSlide]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -80,52 +130,142 @@ const WhyChooseUs = () => {
           </motion.div>
         </div>
 
-        {/* Reasons Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {reasons.map((reason, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              className="group relative bg-slate-50 hover:bg-white rounded-2xl p-8 transition-all duration-500 hover:shadow-xl border border-transparent hover:border-primary/20"
+        {/* Reasons Layout - Grid for Desktop, Carousel for Mobile */}
+        {isMobile ? (
+          /* Mobile Carousel */
+          <div className="relative">
+            <div 
+              className="overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
-              {/* Icon */}
-              <div className="mb-6">
-                <div className="bg-primary/10 group-hover:bg-primary rounded-full p-4 w-16 h-16 flex items-center justify-center transition-all duration-300">
-                  <reason.icon className="h-8 w-8 text-primary group-hover:text-white transition-colors duration-300" />
-                </div>
-              </div>
+              <motion.div 
+                className="flex transition-transform duration-300 ease-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {reasons.map((reason, index) => (
+                  <div key={index} className="w-full flex-shrink-0 px-2">
+                    <motion.div
+                      variants={itemVariants}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true }}
+                      className="group relative bg-slate-50 hover:bg-white rounded-2xl p-6 transition-all duration-500 hover:shadow-xl border border-transparent hover:border-primary/20 mx-2"
+                    >
+                      {/* Icon */}
+                      <div className="mb-4">
+                        <div className="bg-primary/10 group-hover:bg-primary rounded-full p-3 w-12 h-12 flex items-center justify-center transition-all duration-300">
+                          <reason.icon className="h-6 w-6 text-primary group-hover:text-white transition-colors duration-300" />
+                        </div>
+                      </div>
 
-              {/* Content */}
-              <div className="mb-6">
-                <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors duration-300">
-                  {reason.title}
-                </h3>
-                <p className="text-slate-600 leading-relaxed mb-4">
-                  {reason.description}
-                </p>
-              </div>
+                      {/* Content */}
+                      <div className="mb-4">
+                        <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors duration-300">
+                          {reason.title}
+                        </h3>
+                        <p className="text-slate-600 leading-relaxed mb-3 text-sm">
+                          {reason.description}
+                        </p>
+                      </div>
 
-              {/* Features */}
-              <div className="space-y-2">
-                {reason.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-primary rounded-full" />
-                    <span className="text-sm text-slate-600">{feature}</span>
+                      {/* Features */}
+                      <div className="space-y-1">
+                        {reason.features.map((feature, idx) => (
+                          <div key={idx} className="flex items-center space-x-2">
+                            <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+                            <span className="text-xs text-slate-600">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Hover Effect */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    </motion.div>
                   </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Mobile Navigation */}
+            <div className="flex justify-between items-center mt-6">
+              <button
+                onClick={prevSlide}
+                className="bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
+              >
+                <ChevronLeft className="h-5 w-5 text-slate-600" />
+              </button>
+              
+              {/* Dots Indicator */}
+              <div className="flex space-x-2">
+                {reasons.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentSlide ? 'bg-primary scale-125' : 'bg-slate-300'
+                    }`}
+                  />
                 ))}
               </div>
 
-              {/* Hover Effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </motion.div>
-          ))}
-        </motion.div>
+              <button
+                onClick={nextSlide}
+                className="bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-primary"
+              >
+                <ChevronRight className="h-5 w-5 text-slate-600" />
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* Desktop Grid */
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {reasons.map((reason, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                className="group relative bg-slate-50 hover:bg-white rounded-2xl p-8 transition-all duration-500 hover:shadow-xl border border-transparent hover:border-primary/20"
+              >
+                {/* Icon */}
+                <div className="mb-6">
+                  <div className="bg-primary/10 group-hover:bg-primary rounded-full p-4 w-16 h-16 flex items-center justify-center transition-all duration-300">
+                    <reason.icon className="h-8 w-8 text-primary group-hover:text-white transition-colors duration-300" />
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors duration-300">
+                    {reason.title}
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed mb-4">
+                    {reason.description}
+                  </p>
+                </div>
+
+                {/* Features */}
+                <div className="space-y-2">
+                  {reason.features.map((feature, idx) => (
+                    <div key={idx} className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-primary rounded-full" />
+                      <span className="text-sm text-slate-600">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Hover Effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
 
         {/* Bottom Section */}
         <motion.div
