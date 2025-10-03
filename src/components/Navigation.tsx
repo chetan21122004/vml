@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Ship, Plane, Package, FileCheck, Container, Truck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import vmlLogo from '@/assets/vml-logo.png';
 import heroImage from '@/assets/hero-container-ship.jpg';
 import cargoPlane from '@/assets/cargo-plane.jpg';
@@ -15,6 +15,21 @@ const Navigation = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const location = useLocation();
+
+  // Handle scroll to section when hash changes
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 0);
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location]);
 
   const services = [
     {
@@ -112,19 +127,19 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0 z-40 transition-transform mt-10 bg-white rounded-full shadow duration-300">
-            <a href="#home" className="flex m-3 items-center">
+            <Link to="/#home" className="flex m-3 items-center">
               <img
                 src={vmlLogo}
                 alt="VML India"
                 className="h-14 md:h-36 w-auto "
               />
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            <a
-              href="#home"
+            <Link
+              to="/#home"
               className={cn(
                 "relative py-2 text-sm font-medium tracking-wide transition-colors duration-300",
                 activeSection === 'home'
@@ -134,7 +149,7 @@ const Navigation = () => {
               )}
             >
               Home
-            </a>
+            </Link>
 
             {/* Services Dropdown */}
             <div
@@ -194,8 +209,8 @@ const Navigation = () => {
               </div>
             </div>
 
-            <a
-              href="#gallery"
+            <Link
+              to="/#gallery"
               className={cn(
                 "relative py-2 text-sm font-medium tracking-wide transition-colors duration-300",
                 activeSection === 'gallery'
@@ -205,9 +220,9 @@ const Navigation = () => {
               )}
             >
               Gallery
-            </a>
-            <a
-              href="#about"
+            </Link>
+            <Link
+              to="/#about"
               className={cn(
                 "relative py-2 text-sm font-medium tracking-wide transition-colors duration-300",
                 activeSection === 'about'
@@ -217,9 +232,9 @@ const Navigation = () => {
               )}
             >
               About
-            </a>
-            <a
-              href="#contact"
+            </Link>
+            <Link
+              to="/#contact"
               className={cn(
                 "relative py-2 text-sm font-medium tracking-wide transition-colors duration-300",
                 activeSection === 'contact'
@@ -229,15 +244,15 @@ const Navigation = () => {
               )}
             >
               Contact
-            </a>
-            <a href="#contact">
+            </Link>
+            <Link to="/#contact">
               <Button
                 size="sm"
                 className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 Get Quote
               </Button>
-            </a>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -267,8 +282,8 @@ const Navigation = () => {
           <div className="px-2 py-3 bg-card/95 backdrop-blur-md rounded-b-lg shadow-lg divide-y divide-border">
             {/* Main Navigation */}
             <div className="pb-3 space-y-1">
-              <a
-                href="#home"
+              <Link
+                to="/#home"
                 className={cn(
                   "block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200",
                   activeSection === 'home'
@@ -278,7 +293,7 @@ const Navigation = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Home
-              </a>
+              </Link>
               <div className="px-4 py-2.5 text-sm font-medium text-foreground/80">
                 Services
               </div>
@@ -302,8 +317,8 @@ const Navigation = () => {
                   </Link>
                 ))}
               </div>
-              <a
-                href="#gallery"
+              <Link
+                to="/#gallery"
                 className={cn(
                   "block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200",
                   activeSection === 'gallery'
@@ -313,9 +328,9 @@ const Navigation = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Gallery
-              </a>
-              <a
-                href="#about"
+              </Link>
+              <Link
+                to="/#about"
                 className={cn(
                   "block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200",
                   activeSection === 'about'
@@ -325,9 +340,9 @@ const Navigation = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 About
-              </a>
-              <a
-                href="#contact"
+              </Link>
+              <Link
+                to="/#contact"
                 className={cn(
                   "block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200",
                   activeSection === 'contact'
@@ -337,7 +352,7 @@ const Navigation = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Contact
-              </a>
+              </Link>
             </div>
 
             {/* CTA Section */}

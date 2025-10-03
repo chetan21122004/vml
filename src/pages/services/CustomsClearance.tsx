@@ -2,51 +2,45 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { 
-  Plane, ArrowLeft, CheckCircle, Star, Clock, Shield, Zap, 
-  Phone, Mail, MapPin, Users, Package, Timer
+  FileCheck, ArrowLeft, CheckCircle, Star, Clock, Shield, Scale, 
+  Phone, Mail, MapPin, Users, Package, FileText
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import cargoPlane from '@/assets/cargo-plane.jpg';
+import warehouseImage from '@/assets/warehouse-operations.jpg';
 
-const AirFreight = () => {
+const CustomsClearance = () => {
   const services = [
-    "Express Air Freight - Next flight out service for urgent shipments",
-    "Standard Air Freight - Scheduled air cargo service with reliable timing",
-    "Consolidated Air Freight - Cost-effective groupage service for smaller loads",
-    "Charter Services - Dedicated aircraft for large or special shipments",
-    "Dangerous Goods - Certified handling of hazardous materials",
-    "Perishable Cargo - Temperature-sensitive goods with cold chain management"
+    "Import & Export Clearance - Complete customs clearance for all cargo types",
+    "Duty & Tax Calculation - Accurate assessment and payment processing",
+    "Regulatory Compliance Management - Expert handling of all regulations",
+    "Documentation Preparation - Complete paperwork and filing services",
+    "Customs Audit Support - Professional audit assistance and compliance",
+    "Trade Compliance Consulting - Strategic advice for trade optimization"
   ];
 
   const benefits = [
-    "Fastest transit times globally",
-    "High security and cargo safety",
-    "Ideal for high-value shipments",
-    "Extensive global network coverage",
-    "Priority handling and boarding",
-    "Real-time flight tracking"
+    "Licensed customs house agents",
+    "Reduced clearance times",
+    "Minimized duty and tax liabilities",
+    "Expert regulatory knowledge",
+    "Risk mitigation and compliance",
+    "24/7 customs support"
   ];
 
   const process = [
-    "Booking & Rate Confirmation",
-    "Cargo Pickup & Security Screening",
-    "Airport Processing & Documentation",
-    "Flight Departure & Transit Tracking",
-    "Destination Airport Clearance",
-    "Express Delivery to Consignee"
+    "Document Review & Preparation",
+    "Customs Declaration Filing",
+    "Duty Assessment & Payment",
+    "Physical Examination (if required)",
+    "Clearance Authorization",
+    "Cargo Release & Delivery"
   ];
 
-  const transitTimes = {
-    "Express Service": "1-2 days",
-    "Standard Service": "2-4 days",
-    "Economy Service": "4-7 days"
-  };
-
   const stats = [
-    { icon: Package, value: "8K+", label: "Air Shipments" },
-    { icon: Timer, value: "24hrs", label: "Express Delivery" },
-    { icon: Users, value: "1,800+", label: "Happy Clients" },
-    { icon: Star, value: "4.8", label: "Service Rating" }
+    { icon: Package, value: "12K+", label: "Customs Clearances" },
+    { icon: Clock, value: "2-4hrs", label: "Average Clearance" },
+    { icon: Users, value: "2,800+", label: "Satisfied Clients" },
+    { icon: Star, value: "4.7", label: "Service Rating" }
   ];
 
   return (
@@ -65,8 +59,8 @@ const AirFreight = () => {
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src={cargoPlane}
-            alt="Air Freight Services"
+            src={warehouseImage}
+            alt="Customs Clearance Services"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80"></div>
@@ -75,23 +69,23 @@ const AirFreight = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
             <Badge className="mb-6 bg-primary/20 text-primary border-primary/30 backdrop-blur-sm">
-              Express Air Cargo Solutions
+              Expert CHA Services
             </Badge>
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-              Air Freight <span className="text-primary">Services</span>
+              Customs <span className="text-primary">Clearance</span>
             </h1>
             <p className="text-xl text-white/90 mb-8 leading-relaxed max-w-2xl">
-              Fast and reliable air cargo services for time-sensitive shipments with express handling, 
-              priority boarding, and global reach for urgent logistics requirements.
+              Expert customs house agent services ensuring smooth clearance of your cargo 
+              with complete compliance and regulatory expertise for seamless trade operations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-white shadow-lg">
                 <Phone className="mr-2 h-5 w-5" />
-                Get Express Quote
+                Get Clearance Quote
               </Button>
               <Button size="lg" className="text-white border-white/30 hover:bg-white/10">
                 <Mail className="mr-2 h-5 w-5" />
-                Contact Specialist
+                Consult CHA Expert
               </Button>
             </div>
           </div>
@@ -124,21 +118,21 @@ const AirFreight = () => {
               <h2 className="text-3xl font-bold text-slate-900 mb-6">Service Overview</h2>
               <div className="prose prose-lg text-slate-600">
                 <p className="mb-4">
-                  Our air freight services offer the fastest shipping solution for urgent and high-value cargo. 
-                  With access to major airlines and cargo carriers worldwide, we ensure your time-sensitive 
-                  shipments reach their destination quickly and safely.
+                  Our licensed customs house agents provide expert clearance services, ensuring your cargo 
+                  moves through customs efficiently while maintaining full regulatory compliance. With deep 
+                  knowledge of customs procedures and trade regulations, we streamline the clearance process.
                 </p>
                 <p>
-                  From express next-flight-out services to consolidated air freight options, we provide 
-                  flexible solutions that meet your specific timing and budget requirements while maintaining 
-                  the highest standards of security and reliability.
+                  From documentation preparation to duty calculation and final cargo release, we handle 
+                  every aspect of customs clearance with precision and expertise, minimizing delays and 
+                  ensuring compliance with all regulatory requirements.
                 </p>
               </div>
             </section>
 
             {/* Services Offered */}
             <section>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Air Cargo Services</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Customs Services</h2>
               <div className="grid grid-cols-1 gap-4">
                 {services.map((service, idx) => (
                   <Card key={idx} className="p-4 border-l-4 border-l-primary bg-primary/5">
@@ -160,7 +154,7 @@ const AirFreight = () => {
 
             {/* Key Benefits */}
             <section>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Why Choose Air Freight?</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Why Choose Our CHA Services?</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {benefits.map((benefit, idx) => (
                   <div key={idx} className="flex items-start space-x-3 p-4 bg-white rounded-lg shadow-sm border">
@@ -173,7 +167,7 @@ const AirFreight = () => {
 
             {/* Process Flow */}
             <section>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Air Freight Process</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Clearance Process</h2>
               <div className="space-y-4">
                 {process.map((step, idx) => (
                   <div key={idx} className="flex items-center space-x-4 p-6 bg-white border border-slate-200 rounded-lg shadow-sm">
@@ -183,12 +177,12 @@ const AirFreight = () => {
                     <div>
                       <h3 className="font-semibold text-slate-900">{step}</h3>
                       <p className="text-slate-600 text-sm mt-1">
-                        {idx === 0 && "Instant rate quotes and booking confirmation for your air cargo"}
-                        {idx === 1 && "Professional pickup service with mandatory security screening"}
-                        {idx === 2 && "Expert airport processing and complete documentation handling"}
-                        {idx === 3 && "Real-time flight tracking with departure notifications"}
-                        {idx === 4 && "Swift customs clearance at destination airport"}
-                        {idx === 5 && "Priority delivery to your specified destination"}
+                        {idx === 0 && "Thorough review and preparation of all required documentation"}
+                        {idx === 1 && "Accurate customs declaration filing with proper classification"}
+                        {idx === 2 && "Professional duty assessment and payment processing"}
+                        {idx === 3 && "Coordination for physical examination when required"}
+                        {idx === 4 && "Obtaining clearance authorization from customs authorities"}
+                        {idx === 5 && "Final cargo release and delivery coordination"}
                       </p>
                     </div>
                   </div>
@@ -196,28 +190,39 @@ const AirFreight = () => {
               </div>
             </section>
 
-            {/* Service Levels */}
+            {/* Specialized Services */}
             <section>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Service Levels & Transit Times</h2>
-              <div className="grid grid-cols-1 gap-4">
-                {Object.entries(transitTimes).map(([service, time]) => (
-                  <Card key={service} className="p-6 border-l-4 border-l-primary">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center space-x-3">
-                        <Plane className="h-6 w-6 text-primary" />
-                        <div>
-                          <h3 className="font-semibold text-slate-900">{service}</h3>
-                          <p className="text-slate-600 text-sm">
-                            {service === 'Express Service' && 'Fastest option for critical shipments'}
-                            {service === 'Standard Service' && 'Reliable scheduled air cargo service'}
-                            {service === 'Economy Service' && 'Cost-effective air freight solution'}
-                          </p>
-                        </div>
-                      </div>
-                      <Badge className="bg-primary text-white text-lg px-4 py-2">{time}</Badge>
-                    </div>
-                  </Card>
-                ))}
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Specialized Clearance Services</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="p-6 border-l-4 border-l-green-500">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <Scale className="h-8 w-8 text-green-500" />
+                    <h3 className="text-xl font-semibold text-slate-900">Import Clearance</h3>
+                  </div>
+                  <p className="text-slate-600 mb-4">
+                    Complete import clearance services with duty optimization and compliance management.
+                  </p>
+                  <ul className="space-y-2 text-sm text-slate-600">
+                    <li>• Bill of Entry preparation</li>
+                    <li>• Duty and tax calculation</li>
+                    <li>• Import license verification</li>
+                  </ul>
+                </Card>
+
+                <Card className="p-6 border-l-4 border-l-blue-500">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <FileText className="h-8 w-8 text-blue-500" />
+                    <h3 className="text-xl font-semibold text-slate-900">Export Clearance</h3>
+                  </div>
+                  <p className="text-slate-600 mb-4">
+                    Efficient export clearance with proper documentation and regulatory compliance.
+                  </p>
+                  <ul className="space-y-2 text-sm text-slate-600">
+                    <li>• Shipping Bill preparation</li>
+                    <li>• Export incentive claims</li>
+                    <li>• Certificate of origin</li>
+                  </ul>
+                </Card>
               </div>
             </section>
           </div>
@@ -226,68 +231,66 @@ const AirFreight = () => {
           <div className="space-y-8">
             {/* Quick Contact */}
             <Card className="p-6 bg-gradient-to-br from-primary to-blue-600 text-white">
-              <h3 className="text-xl font-bold mb-4">Need Express Shipping?</h3>
-              <p className="mb-6 opacity-90">Get instant quotes for urgent air freight requirements.</p>
+              <h3 className="text-xl font-bold mb-4">Need Customs Support?</h3>
+              <p className="mb-6 opacity-90">Get expert CHA services for smooth customs clearance.</p>
               <div className="space-y-3">
                 <Button className="w-full bg-white text-primary hover:bg-slate-100">
                   <Phone className="mr-2 h-4 w-4" />
-                  Call: +91-XXX-XXX-XXXX
+                  Call CHA Expert
                 </Button>
                 <Button className="w-full border-white text-white hover:bg-white/10">
                   <Mail className="mr-2 h-4 w-4" />
-                  Express Quote
+                  Get Clearance Quote
                 </Button>
               </div>
             </Card>
 
             {/* Service Features */}
             <Card className="p-6">
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Air Freight Advantages</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-4">CHA Advantages</h3>
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Zap className="h-5 w-5 text-yellow-500" />
-                  <span className="text-slate-700">Express 24-48hr Delivery</span>
-                </div>
-                <div className="flex items-center space-x-3">
                   <Shield className="h-5 w-5 text-green-500" />
-                  <span className="text-slate-700">High Security Standards</span>
+                  <span className="text-slate-700">Licensed CHA Services</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Clock className="h-5 w-5 text-blue-500" />
-                  <span className="text-slate-700">Real-time Flight Tracking</span>
+                  <span className="text-slate-700">Fast Clearance Times</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Users className="h-5 w-5 text-purple-500" />
-                  <span className="text-slate-700">Dedicated Account Manager</span>
+                  <Scale className="h-5 w-5 text-purple-500" />
+                  <span className="text-slate-700">Duty Optimization</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Users className="h-5 w-5 text-orange-500" />
+                  <span className="text-slate-700">Expert Compliance Team</span>
                 </div>
               </div>
             </Card>
 
-          
-
-            {/* Airport Network */}
+            {/* Port Coverage */}
             <Card className="p-6">
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Major Airport Hubs</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-4">Port Coverage</h3>
               <div className="space-y-3">
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-primary mt-1" />
                   <div>
-                    <p className="font-medium text-slate-900">Mumbai (BOM)</p>
-                    <p className="text-sm text-slate-600">Primary cargo hub</p>
+                    <p className="font-medium text-slate-900">JNPT Mumbai</p>
+                    <p className="text-sm text-slate-600">Main container port</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-primary mt-1" />
                   <div>
-                    <p className="font-medium text-slate-900">Delhi (DEL)</p>
-                    <p className="text-sm text-slate-600">North India gateway</p>
+                    <p className="font-medium text-slate-900">Chennai Port</p>
+                    <p className="text-sm text-slate-600">South India gateway</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-primary mt-1" />
                   <div>
-                    <p className="font-medium text-slate-900">Chennai (MAA)</p>
-                    <p className="text-sm text-slate-600">South India operations</p>
+                    <p className="font-medium text-slate-900">Kandla Port</p>
+                    <p className="text-sm text-slate-600">West coast operations</p>
                   </div>
                 </div>
               </div>
@@ -299,4 +302,4 @@ const AirFreight = () => {
   );
 };
 
-export default AirFreight;
+export default CustomsClearance;

@@ -2,45 +2,52 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { 
-  Package, ArrowLeft, CheckCircle, Star, Clock, Shield, Globe, 
-  Phone, Mail, MapPin, Users, Truck, FileText
+  Container, ArrowLeft, CheckCircle, Star, Clock, Shield, Package, 
+  Phone, Mail, MapPin, Users, Truck, Ship
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import warehouseImage from '@/assets/warehouse-operations.jpg';
+import containerTruck from '@/assets/container-truck.jpg';
 
-const FreightForwarding = () => {
+const ContainerBooking = () => {
   const services = [
-    "Multi-modal Transportation Planning - Optimized routing across sea, air, and land",
-    "Customs Documentation & Compliance - Complete regulatory compliance management",
-    "Cargo Insurance & Risk Management - Comprehensive coverage and risk assessment",
-    "Warehousing & Distribution Services - Strategic storage and distribution solutions",
-    "Supply Chain Optimization - End-to-end logistics efficiency improvements",
-    "Trade Finance Solutions - Financial services for international trade"
+    "20ft & 40ft Standard Containers - Standard dry containers for general cargo",
+    "High Cube Container Options - Extra height containers for voluminous cargo",
+    "Refrigerated Container Booking - Temperature-controlled reefer containers",
+    "Open Top & Flat Rack Containers - Specialized containers for oversized cargo",
+    "Tank Container Services - Liquid cargo transportation containers",
+    "Special Equipment Arrangements - Custom container solutions for unique requirements"
   ];
 
   const benefits = [
-    "Single point of contact for all logistics",
-    "Cost optimization through route planning",
-    "Reduced administrative burden",
-    "Expert regulatory compliance",
-    "Global network of trusted partners",
-    "Advanced tracking and reporting"
+    "Guaranteed container availability",
+    "Competitive market rates",
+    "Flexible booking terms",
+    "Real-time container tracking",
+    "Quality assured equipment",
+    "24/7 booking support"
   ];
 
   const process = [
-    "Logistics Planning & Route Optimization",
-    "Documentation Preparation & Compliance",
-    "Multi-modal Transportation Coordination",
-    "Real-time Tracking & Communication",
-    "Customs Clearance & Delivery",
-    "Post-delivery Support & Reporting"
+    "Container Requirement Assessment",
+    "Rate Quotation & Booking",
+    "Container Allocation & Positioning",
+    "Loading & Documentation",
+    "Transit Monitoring & Updates",
+    "Destination Delivery & Return"
+  ];
+
+  const containerTypes = [
+    { type: "20ft Standard", description: "General purpose dry container", capacity: "28 CBM" },
+    { type: "40ft Standard", description: "Standard dry container", capacity: "58 CBM" },
+    { type: "40ft High Cube", description: "Extra height container", capacity: "68 CBM" },
+    { type: "20ft Reefer", description: "Refrigerated container", capacity: "25 CBM" }
   ];
 
   const stats = [
-    { icon: Package, value: "25K+", label: "Shipments Managed" },
-    { icon: Globe, value: "150+", label: "Countries Served" },
-    { icon: Users, value: "3,200+", label: "Business Clients" },
-    { icon: Star, value: "4.9", label: "Client Satisfaction" }
+    { icon: Container, value: "5K+", label: "Containers Booked" },
+    { icon: Ship, value: "50+", label: "Shipping Lines" },
+    { icon: Users, value: "1,500+", label: "Active Clients" },
+    { icon: Star, value: "4.6", label: "Service Rating" }
   ];
 
   return (
@@ -59,8 +66,8 @@ const FreightForwarding = () => {
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src={warehouseImage}
-            alt="Freight Forwarding Services"
+            src={containerTruck}
+            alt="Container Booking Services"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80"></div>
@@ -69,23 +76,23 @@ const FreightForwarding = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
             <Badge className="mb-6 bg-primary/20 text-primary border-primary/30 backdrop-blur-sm">
-              Complete Logistics Management
+              Container Solutions
             </Badge>
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-              Freight <span className="text-primary">Forwarding</span>
+              Container <span className="text-primary">Booking</span>
             </h1>
             <p className="text-xl text-white/90 mb-8 leading-relaxed max-w-2xl">
-              End-to-end freight forwarding services managing your complete logistics chain 
-              from origin to destination with expert coordination and compliance management.
+              Hassle-free container booking services with competitive rates and guaranteed space 
+              allocation across all major shipping lines and container types.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-white shadow-lg">
                 <Phone className="mr-2 h-5 w-5" />
-                Discuss Requirements
+                Book Container Now
               </Button>
               <Button size="lg" className="text-white border-white/30 hover:bg-white/10">
                 <Mail className="mr-2 h-5 w-5" />
-                Request Proposal
+                Check Availability
               </Button>
             </div>
           </div>
@@ -118,21 +125,46 @@ const FreightForwarding = () => {
               <h2 className="text-3xl font-bold text-slate-900 mb-6">Service Overview</h2>
               <div className="prose prose-lg text-slate-600">
                 <p className="mb-4">
-                  As your trusted freight forwarding partner, we manage the entire logistics process, 
-                  coordinating multiple transportation modes and handling all documentation requirements. 
-                  Our comprehensive approach ensures seamless movement of your cargo worldwide.
+                  Secure your container space with our streamlined booking platform. We offer various 
+                  container types and flexible booking options to meet your shipping requirements, 
+                  ensuring guaranteed availability and competitive rates.
                 </p>
                 <p>
-                  From initial planning to final delivery, we provide end-to-end logistics management 
-                  that optimizes costs, reduces complexity, and ensures compliance with international 
-                  trade regulations across all markets.
+                  From standard dry containers to specialized reefer units, our comprehensive container 
+                  booking service provides access to quality equipment from major shipping lines worldwide, 
+                  with real-time tracking and professional support throughout the journey.
                 </p>
+              </div>
+            </section>
+
+            {/* Container Types */}
+            <section>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Container Types Available</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {containerTypes.map((container, idx) => (
+                  <Card key={idx} className="p-6 border-l-4 border-l-primary bg-primary/5">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-start space-x-3">
+                        <Container className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+                        <div>
+                          <h3 className="font-semibold text-slate-900 mb-1">
+                            {container.type}
+                          </h3>
+                          <p className="text-slate-600 text-sm mb-2">
+                            {container.description}
+                          </p>
+                        </div>
+                      </div>
+                      <Badge className="bg-primary text-white">{container.capacity}</Badge>
+                    </div>
+                  </Card>
+                ))}
               </div>
             </section>
 
             {/* Services Offered */}
             <section>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Comprehensive Services</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Booking Services</h2>
               <div className="grid grid-cols-1 gap-4">
                 {services.map((service, idx) => (
                   <Card key={idx} className="p-4 border-l-4 border-l-primary bg-primary/5">
@@ -154,7 +186,7 @@ const FreightForwarding = () => {
 
             {/* Key Benefits */}
             <section>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Partnership Benefits</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Booking Advantages</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {benefits.map((benefit, idx) => (
                   <div key={idx} className="flex items-start space-x-3 p-4 bg-white rounded-lg shadow-sm border">
@@ -167,7 +199,7 @@ const FreightForwarding = () => {
 
             {/* Process Flow */}
             <section>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Our Process</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Booking Process</h2>
               <div className="space-y-4">
                 {process.map((step, idx) => (
                   <div key={idx} className="flex items-center space-x-4 p-6 bg-white border border-slate-200 rounded-lg shadow-sm">
@@ -177,12 +209,12 @@ const FreightForwarding = () => {
                     <div>
                       <h3 className="font-semibold text-slate-900">{step}</h3>
                       <p className="text-slate-600 text-sm mt-1">
-                        {idx === 0 && "Strategic planning and route optimization for cost-effective logistics"}
-                        {idx === 1 && "Complete documentation preparation ensuring regulatory compliance"}
-                        {idx === 2 && "Seamless coordination across multiple transportation modes"}
-                        {idx === 3 && "Continuous tracking updates and proactive communication"}
-                        {idx === 4 && "Expert customs clearance and final delivery coordination"}
-                        {idx === 5 && "Comprehensive reporting and ongoing support services"}
+                        {idx === 0 && "Detailed assessment of your container requirements and specifications"}
+                        {idx === 1 && "Competitive rate quotation and confirmed container booking"}
+                        {idx === 2 && "Container allocation and positioning at pickup location"}
+                        {idx === 3 && "Professional loading supervision and documentation"}
+                        {idx === 4 && "Real-time monitoring and tracking updates during transit"}
+                        {idx === 5 && "Timely delivery and container return coordination"}
                       </p>
                     </div>
                   </div>
@@ -190,67 +222,37 @@ const FreightForwarding = () => {
               </div>
             </section>
 
-            {/* Service Areas */}
+            {/* Special Features */}
             <section>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Specialized Solutions</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Special Container Services</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Card className="p-6 border-l-4 border-l-green-500">
                   <div className="flex items-center space-x-3 mb-4">
-                    <Truck className="h-8 w-8 text-green-500" />
-                    <h3 className="text-xl font-semibold text-slate-900">Multi-Modal Transport</h3>
+                    <Package className="h-8 w-8 text-green-500" />
+                    <h3 className="text-xl font-semibold text-slate-900">Reefer Containers</h3>
                   </div>
                   <p className="text-slate-600 mb-4">
-                    Seamless integration of sea, air, and land transportation for optimal routing and cost efficiency.
+                    Temperature-controlled containers for perishable and pharmaceutical cargo.
                   </p>
                   <ul className="space-y-2 text-sm text-slate-600">
-                    <li>• Sea-Air combination services</li>
-                    <li>• Door-to-door delivery solutions</li>
-                    <li>• Cross-border transportation</li>
+                    <li>• Temperature range: -25°C to +25°C</li>
+                    <li>• Continuous monitoring</li>
+                    <li>• Backup power systems</li>
                   </ul>
                 </Card>
 
                 <Card className="p-6 border-l-4 border-l-blue-500">
                   <div className="flex items-center space-x-3 mb-4">
-                    <FileText className="h-8 w-8 text-blue-500" />
-                    <h3 className="text-xl font-semibold text-slate-900">Documentation Services</h3>
+                    <Truck className="h-8 w-8 text-blue-500" />
+                    <h3 className="text-xl font-semibold text-slate-900">Special Equipment</h3>
                   </div>
                   <p className="text-slate-600 mb-4">
-                    Complete handling of all trade documentation and regulatory compliance requirements.
+                    Specialized containers for oversized and project cargo requirements.
                   </p>
                   <ul className="space-y-2 text-sm text-slate-600">
-                    <li>• Commercial invoices and packing lists</li>
-                    <li>• Certificates of origin</li>
-                    <li>• Export/import licenses</li>
-                  </ul>
-                </Card>
-
-                <Card className="p-6 border-l-4 border-l-purple-500">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <Shield className="h-8 w-8 text-purple-500" />
-                    <h3 className="text-xl font-semibold text-slate-900">Risk Management</h3>
-                  </div>
-                  <p className="text-slate-600 mb-4">
-                    Comprehensive cargo insurance and risk assessment for complete peace of mind.
-                  </p>
-                  <ul className="space-y-2 text-sm text-slate-600">
-                    <li>• Marine cargo insurance</li>
-                    <li>• Risk assessment and mitigation</li>
-                    <li>• Claims handling support</li>
-                  </ul>
-                </Card>
-
-                <Card className="p-6 border-l-4 border-l-orange-500">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <Globe className="h-8 w-8 text-orange-500" />
-                    <h3 className="text-xl font-semibold text-slate-900">Global Network</h3>
-                  </div>
-                  <p className="text-slate-600 mb-4">
-                    Extensive worldwide network of trusted partners and agents for reliable service delivery.
-                  </p>
-                  <ul className="space-y-2 text-sm text-slate-600">
-                    <li>• 150+ countries coverage</li>
-                    <li>• Local expertise worldwide</li>
-                    <li>• 24/7 global support</li>
+                    <li>• Open top containers</li>
+                    <li>• Flat rack containers</li>
+                    <li>• Tank containers</li>
                   </ul>
                 </Card>
               </div>
@@ -261,89 +263,89 @@ const FreightForwarding = () => {
           <div className="space-y-8">
             {/* Quick Contact */}
             <Card className="p-6 bg-gradient-to-br from-primary to-blue-600 text-white">
-              <h3 className="text-xl font-bold mb-4">Need Logistics Partner?</h3>
-              <p className="mb-6 opacity-90">Let's discuss your freight forwarding requirements and create a customized solution.</p>
+              <h3 className="text-xl font-bold mb-4">Need Container Space?</h3>
+              <p className="mb-6 opacity-90">Book your containers with guaranteed availability and competitive rates.</p>
               <div className="space-y-3">
                 <Button className="w-full bg-white text-primary hover:bg-slate-100">
                   <Phone className="mr-2 h-4 w-4" />
-                  Schedule Consultation
+                  Book Now
                 </Button>
                 <Button className="w-full border-white text-white hover:bg-white/10">
                   <Mail className="mr-2 h-4 w-4" />
-                  Request Proposal
+                  Check Availability
                 </Button>
               </div>
             </Card>
 
             {/* Service Features */}
             <Card className="p-6">
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Why Choose Us?</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-4">Why Book With Us?</h3>
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Globe className="h-5 w-5 text-primary" />
-                  <span className="text-slate-700">Global Network Coverage</span>
-                </div>
-                <div className="flex items-center space-x-3">
                   <Shield className="h-5 w-5 text-green-500" />
-                  <span className="text-slate-700">Comprehensive Insurance</span>
+                  <span className="text-slate-700">Quality Assured Equipment</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Clock className="h-5 w-5 text-blue-500" />
-                  <span className="text-slate-700">24/7 Support & Tracking</span>
+                  <span className="text-slate-700">Real-time Tracking</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Container className="h-5 w-5 text-primary" />
+                  <span className="text-slate-700">All Container Types</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Users className="h-5 w-5 text-purple-500" />
-                  <span className="text-slate-700">Dedicated Account Team</span>
+                  <span className="text-slate-700">24/7 Support Team</span>
                 </div>
               </div>
             </Card>
 
-            {/* Industry Expertise */}
+            {/* Shipping Lines */}
             <Card className="p-6">
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Industry Expertise</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-4">Partner Shipping Lines</h3>
               <div className="space-y-3">
                 <div className="p-3 bg-slate-50 rounded">
-                  <p className="font-medium text-slate-900">Automotive</p>
-                  <p className="text-sm text-slate-600">Specialized automotive logistics</p>
+                  <p className="font-medium text-slate-900">Maersk Line</p>
+                  <p className="text-sm text-slate-600">Global container shipping</p>
                 </div>
                 <div className="p-3 bg-slate-50 rounded">
-                  <p className="font-medium text-slate-900">Electronics</p>
-                  <p className="text-sm text-slate-600">High-value electronics handling</p>
+                  <p className="font-medium text-slate-900">MSC</p>
+                  <p className="text-sm text-slate-600">Mediterranean Shipping</p>
                 </div>
                 <div className="p-3 bg-slate-50 rounded">
-                  <p className="font-medium text-slate-900">Pharmaceuticals</p>
-                  <p className="text-sm text-slate-600">Temperature-controlled logistics</p>
+                  <p className="font-medium text-slate-900">CMA CGM</p>
+                  <p className="text-sm text-slate-600">French container line</p>
                 </div>
                 <div className="p-3 bg-slate-50 rounded">
-                  <p className="font-medium text-slate-900">Textiles</p>
-                  <p className="text-sm text-slate-600">Fashion and textile logistics</p>
+                  <p className="font-medium text-slate-900">COSCO</p>
+                  <p className="text-sm text-slate-600">Chinese shipping giant</p>
                 </div>
               </div>
             </Card>
 
-            {/* Regional Offices */}
+            {/* Port Network */}
             <Card className="p-6">
-              <h3 className="text-xl font-bold text-slate-900 mb-4">Regional Offices</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-4">Port Network</h3>
               <div className="space-y-3">
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-primary mt-1" />
                   <div>
-                    <p className="font-medium text-slate-900">Mumbai HQ</p>
-                    <p className="text-sm text-slate-600">Main operations center</p>
+                    <p className="font-medium text-slate-900">JNPT Mumbai</p>
+                    <p className="text-sm text-slate-600">Main container terminal</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-primary mt-1" />
                   <div>
-                    <p className="font-medium text-slate-900">Delhi NCR</p>
-                    <p className="text-sm text-slate-600">North India hub</p>
+                    <p className="font-medium text-slate-900">Chennai Port</p>
+                    <p className="text-sm text-slate-600">South India gateway</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-primary mt-1" />
                   <div>
-                    <p className="font-medium text-slate-900">Bangalore</p>
-                    <p className="text-sm text-slate-600">South India operations</p>
+                    <p className="font-medium text-slate-900">Kandla Port</p>
+                    <p className="text-sm text-slate-600">West coast operations</p>
                   </div>
                 </div>
               </div>
@@ -355,4 +357,4 @@ const FreightForwarding = () => {
   );
 };
 
-export default FreightForwarding;
+export default ContainerBooking;

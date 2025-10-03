@@ -90,7 +90,7 @@ const SeaFreight = () => {
                 <Phone className="mr-2 h-5 w-5" />
                 Get Quote Now
               </Button>
-              <Button size="lg" variant="outline" className="text-white border-white/30 hover:bg-white/10">
+              <Button size="lg" className="text-white border-white/30 hover:bg-white/10">
                 <Mail className="mr-2 h-5 w-5" />
                 Contact Expert
               </Button>
@@ -224,7 +224,7 @@ const SeaFreight = () => {
                   <Phone className="mr-2 h-4 w-4" />
                   Call Now: +91-XXX-XXX-XXXX
                 </Button>
-                <Button variant="outline" className="w-full border-white text-white hover:bg-white/10">
+                <Button className="w-full border-white text-white hover:bg-white/10">
                   <Mail className="mr-2 h-4 w-4" />
                   Email Quote Request
                 </Button>

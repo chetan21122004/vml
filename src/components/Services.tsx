@@ -33,7 +33,6 @@ const Services = () => {
       description: "Comprehensive ocean freight solutions for global shipping with full container load (FCL) and less than container load (LCL) options.",
       image: heroImage,
       features: ["FCL & LCL Options", "Global Routes", "Port Services"],
-      price: "Starting from $1,200",
       rating: 4.9,
       clients: "2,500+",
       detailedInfo: {
@@ -79,7 +78,6 @@ const Services = () => {
       description: "Fast and reliable air cargo services for time-sensitive shipments with express handling and priority boarding.",
       image: cargoPlane,
       features: ["Express Delivery", "Priority Handling", "Real-time Tracking"],
-      price: "Starting from $8.50/kg",
       rating: 4.8,
       clients: "1,800+",
       detailedInfo: {
@@ -124,7 +122,6 @@ const Services = () => {
       description: "End-to-end freight forwarding services managing your complete logistics chain from origin to destination.",
       image: warehouseImage,
       features: ["Documentation", "Customs Support", "Multi-modal Transport"],
-      price: "Custom Pricing",
       rating: 4.9,
       clients: "3,200+",
       detailedInfo: {
@@ -164,7 +161,6 @@ const Services = () => {
       description: "Expert customs house agent services ensuring smooth clearance of your cargo with complete compliance.",
       image: warehouseImage,
       features: ["Custom Clearance", "Documentation", "Duty Management"],
-      price: "Starting from $150",
       rating: 4.7,
       clients: "2,800+",
       detailedInfo: {
@@ -204,7 +200,6 @@ const Services = () => {
       description: "Hassle-free container booking services with competitive rates and guaranteed space allocation.",
       image: containerTruck,
       features: ["Online Booking", "Container Tracking", "Flexible Options"],
-      price: "Market Rates",
       rating: 4.6,
       clients: "1,500+",
       detailedInfo: {
@@ -244,7 +239,6 @@ const Services = () => {
       description: "Reliable inland transportation services with modern fleet and GPS tracking for door-to-door delivery.",
       image: containerTruck,
       features: ["GPS Tracking", "Door-to-Door", "24/7 Support"],
-      price: "Starting from $2.5/km",
       rating: 4.8,
       clients: "4,100+",
       detailedInfo: {
@@ -400,10 +394,6 @@ const Services = () => {
                             </div>
                           </div>
 
-                          {/* Price Badge */}
-                          <div className="absolute bottom-3 left-3 bg-primary text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
-                            {service.price}
-                          </div>
                         </div>
 
                         {/* Service Content */}
@@ -452,14 +442,7 @@ const Services = () => {
                                 <ArrowRight className="ml-2 h-3 w-3" />
                               </Button>
                             </Link>
-                            <Button 
-                              size="sm"
-                              variant="outline" 
-                              className="w-full border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300"
-                            >
-                              Get Quote
-                              <Phone className="ml-2 h-3 w-3" />
-                            </Button>
+                          
                           </div>
                         </div>
                       </Card>
@@ -532,10 +515,7 @@ const Services = () => {
                   </div>
                 </div>
 
-                {/* Price Badge */}
-                <div className="absolute bottom-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-                  {service.price}
-                </div>
+                
               </div>
 
               {/* Service Content */}
@@ -583,13 +563,7 @@ const Services = () => {
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
-                  <Button 
-                    variant="outline" 
-                    className="w-full border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300"
-                  >
-                    Get Quote
-                    <Phone className="ml-2 h-4 w-4" />
-                  </Button>
+                
                 </div>
               </div>
             </Card>
