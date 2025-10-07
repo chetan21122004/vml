@@ -22,12 +22,11 @@ const Navigation = () => {
     if (location.hash) {
       const element = document.querySelector(location.hash);
       if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }, 0);
+        const rect = element.getBoundingClientRect();
+        window.scrollTo(0, rect.top + window.scrollY - 80); // 80px offset for the fixed header
       }
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo(0, 0);
     }
   }, [location]);
 
