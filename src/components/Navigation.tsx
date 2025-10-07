@@ -125,12 +125,12 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <div className="flex-shrink-0 z-40 transition-transform mt-10 bg-white rounded-full shadow duration-300">
-            <Link to="/#home" className="flex m-3 items-center">
+          <div className="flex-shrink-0 z-40 transition-transform mt-4 md:mt-10 bg-white rounded-full shadow duration-300">
+            <Link to="/#home" className="flex m-2 md:m-3 items-center">
               <img
                 src={vmlLogo}
                 alt="VML India"
-                className="h-14 md:h-36 w-auto "
+                className="h-24 sm:h-14 md:h-36 w-auto"
               />
             </Link>
           </div>
@@ -274,17 +274,17 @@ const Navigation = () => {
         {/* Mobile Menu */}
         <div
           className={cn(
-            "md:hidden overflow-hidden transition-all duration-300 ease-in-out",
-            isMobileMenuOpen ? "max-h-[800px]" : "max-h-0"
+            "md:hidden fixed inset-x-0 top-[5rem] overflow-hidden transition-all duration-300 ease-in-out z-50",
+            isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
           )}
         >
-          <div className="px-2 py-3 bg-card/95 backdrop-blur-md rounded-b-lg shadow-lg divide-y divide-border">
+          <div className="mx-4 px-2 py-3 bg-white/95 backdrop-blur-md rounded-xl shadow-xl divide-y divide-border border border-slate-200">
             {/* Main Navigation */}
             <div className="pb-3 space-y-1">
               <Link
                 to="/#home"
                 className={cn(
-                  "block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200",
+                  "block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
                   activeSection === 'home'
                     ? "bg-primary/10 text-primary"
                     : "text-foreground/80 hover:bg-primary/5 hover:text-primary"
@@ -293,23 +293,25 @@ const Navigation = () => {
               >
                 Home
               </Link>
-              <div className="px-4 py-2.5 text-sm font-medium text-foreground/80">
+              <div className="px-4 py-3 text-sm font-semibold text-slate-900">
                 Services
               </div>
-              <div className="pl-4 space-y-1">
+              <div className="space-y-1">
                 {services.map((service, index) => (
                   <Link
                     key={index}
                     to={service.path}
-                    className="flex items-center space-x-3 px-4 py-2.5 rounded-md text-sm transition-all duration-200 hover:bg-primary/5"
+                    className="flex items-start space-x-3 px-4 py-3 rounded-lg text-sm transition-all duration-200 hover:bg-slate-50"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <service.icon className="h-5 w-5 text-primary" />
+                    <div className="mt-0.5">
+                      <service.icon className="h-5 w-5 text-primary" />
+                    </div>
                     <div>
-                      <div className="font-medium text-foreground/80 hover:text-primary">
+                      <div className="font-medium text-slate-900">
                         {service.title}
                       </div>
-                      <div className="text-xs text-foreground/60">
+                      <div className="text-xs text-slate-600 mt-0.5 line-clamp-2">
                         {service.description}
                       </div>
                     </div>
@@ -319,10 +321,10 @@ const Navigation = () => {
               <Link
                 to="/#gallery"
                 className={cn(
-                  "block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200",
+                  "block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
                   activeSection === 'gallery'
                     ? "bg-primary/10 text-primary"
-                    : "text-foreground/80 hover:bg-primary/5 hover:text-primary"
+                    : "text-slate-900 hover:bg-slate-50"
                 )}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -331,10 +333,10 @@ const Navigation = () => {
               <Link
                 to="/#about"
                 className={cn(
-                  "block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200",
+                  "block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
                   activeSection === 'about'
                     ? "bg-primary/10 text-primary"
-                    : "text-foreground/80 hover:bg-primary/5 hover:text-primary"
+                    : "text-slate-900 hover:bg-slate-50"
                 )}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -343,10 +345,10 @@ const Navigation = () => {
               <Link
                 to="/#contact"
                 className={cn(
-                  "block px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-200",
+                  "block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
                   activeSection === 'contact'
                     ? "bg-primary/10 text-primary"
-                    : "text-foreground/80 hover:bg-primary/5 hover:text-primary"
+                    : "text-slate-900 hover:bg-slate-50"
                 )}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -357,8 +359,8 @@ const Navigation = () => {
             {/* CTA Section */}
             <div className="pt-3 px-4">
               <Button
-                size="sm"
-                className="w-full bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg transition-all duration-300"
+                size="lg"
+                className="w-full bg-primary hover:bg-primary/90 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 Get Quote
               </Button>

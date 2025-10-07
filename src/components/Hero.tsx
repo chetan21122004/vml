@@ -190,20 +190,27 @@ const Hero = () => {
 
   return (
     <section ref={heroRef} id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-       {/* Static Background with Parallax */}
-       <motion.div 
-         className="absolute inset-0"
-         style={{ y }}
-       >
-        <img
-          src={heroImage}
-          alt="Container ship at sunset"
-          className="w-full h-full object-cover"
-        />
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/45 to-black/35"
-        />
-      </motion.div>
+       {/* Dynamic Background with Parallax */}
+       <AnimatePresence mode="wait">
+         <motion.div 
+           key={currentSlide}
+           className="absolute inset-0"
+           initial={{ opacity: 0, scale: 1.1 }}
+           animate={{ opacity: 1, scale: 1 }}
+           exit={{ opacity: 0, scale: 0.9 }}
+           transition={{ duration: 1.2 }}
+           style={{ y }}
+         >
+          <img
+            src={currentService.image}
+            alt={currentService.title}
+            className="w-full h-full object-cover"
+          />
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80 md:bg-gradient-to-r md:from-black/70 md:via-black/50 md:to-black/40"
+          />
+        </motion.div>
+      </AnimatePresence>
 
       {/* Dynamic Content */}
       <AnimatePresence mode="wait">
@@ -215,44 +222,44 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-screen pt-16 lg:pt-20">
-            {/* Left Content - Dynamic Service Info */}
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-screen pt-24 pb-8 lg:pt-20">
+            {/* Main Content - Dynamic Service Info */}
             <motion.div 
-              className="text-left"
-              initial={{ opacity: 0, x: -50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+              className="text-center lg:text-left order-2 lg:order-1"
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {/* Service Badge */}
               <motion.div 
-                className="inline-flex items-center space-x-2 lg:space-x-3 bg-white/10 backdrop-blur-md px-4 lg:px-6 py-2 lg:py-3 rounded-full mb-6 lg:mb-8 border border-white/20"
+                className="inline-flex items-center justify-center space-x-2 lg:space-x-3 bg-white/15 backdrop-blur-md px-4 lg:px-6 py-3 lg:py-3 rounded-full mb-6 lg:mb-8 border border-white/30 shadow-lg"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
                 <currentService.icon className="h-5 w-5 lg:h-6 lg:w-6 text-primary" />
-                <span className="text-white font-medium text-sm lg:text-base">{currentService.subtitle}</span>
+                <span className="text-white font-semibold text-sm lg:text-base">{currentService.subtitle}</span>
               </motion.div>
 
               {/* Dynamic Title */}
               <motion.h1 
-                className="text-1xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-white mb-4 lg:mb-6 leading-tight"
+                className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 lg:mb-6 leading-tight"
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
                 <motion.span 
-                  className="block"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                  className="block text-white drop-shadow-lg"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.6, delay: 0.8 }}
                 >
                   {currentService.title.split(' ')[0]}
                 </motion.span>
                 <motion.span 
-                  className="block bg-gradient-to-r from-primary text-2xl via-blue-400 to-primary bg-clip-text text-transparent"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                  className="block bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent drop-shadow-lg"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.6, delay: 1.0 }}
                 >
                   {currentService.title.split(' ').slice(1).join(' ')}
@@ -260,61 +267,79 @@ const Hero = () => {
               </motion.h1>
 
               {/* Dynamic Description */}
-              <p className="text-lg lg:text-xl text-white/90 mb-6 lg:mb-8 leading-relaxed max-w-lg">
+              <motion.p 
+                className="text-lg sm:text-xl lg:text-xl text-white/95 mb-8 lg:mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0 drop-shadow-sm"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.8, delay: 1.2 }}
+              >
                 {currentService.description}
-              </p>
+              </motion.p>
 
               {/* Dynamic Stats */}
-              <div className="flex flex-wrap gap-2 lg:gap-4 mb-6 lg:mb-8">
+              <motion.div 
+                className="flex flex-wrap justify-center lg:justify-start gap-3 lg:gap-4 mb-8 lg:mb-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.8, delay: 1.4 }}
+              >
                 {currentService.stats.map((stat, index) => (
-                  <div key={index} className="bg-white/10 backdrop-blur-sm px-3 lg:px-4 py-1.5 lg:py-2 rounded-lg border border-white/20">
-                    <span className="text-white font-medium text-xs lg:text-sm">{stat}</span>
-                  </div>
+                  <motion.div 
+                    key={index} 
+                    className="bg-white/15 backdrop-blur-sm px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl border border-white/30 shadow-lg transform hover:scale-105 transition-all duration-300"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.5, delay: 1.6 + (index * 0.1) }}
+                  >
+                    <span className="text-white font-semibold text-sm lg:text-sm whitespace-nowrap drop-shadow-sm">{stat}</span>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
-                <Link to={currentService.path}>
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-4 lg:gap-4 w-full sm:w-auto justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.8, delay: 1.8 }}
+              >
+                <Link to={currentService.path} className="w-full sm:w-auto">
                   <Button 
                     size="lg" 
-                    className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white text-base lg:text-lg px-6 lg:px-8 py-4 lg:py-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                    className="w-full bg-primary hover:bg-primary/90 text-white font-semibold text-lg px-8 py-4 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 rounded-xl"
                   >
                     <span className="hidden sm:inline">Explore {currentService.title}</span>
                     <span className="sm:hidden">Explore Service</span>
-                    <ArrowRight className="ml-2 h-4 w-4 lg:h-5 lg:w-5" />
+                    <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <a href="#contact">
+                <a href="#contact" className="w-full sm:w-auto">
                   <Button 
                     size="lg"
-                    className="w-full sm:w-auto text-white border-white/30 hover:bg-white/10 text-base lg:text-lg px-6 lg:px-8 py-4 lg:py-6 transition-all duration-300"
+                  
+                    className="w-full text-white border-2 border-white/40 hover:bg-white/10 hover:border-white/60 font-semibold text-lg px-8 py-4 transition-all duration-300 rounded-xl backdrop-blur-sm"
                   >
                     Get Quote
                   </Button>
                 </a>
-              </div>
+              </motion.div>
             </motion.div>
 
             {/* Mobile Service Navigation */}
-            <div className="lg:hidden mt-8">
-              <div className="flex justify-center space-x-2 mb-4">
-                {services.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === currentSlide ? 'bg-primary scale-125' : 'bg-white/30'
-                    }`}
-                  />
-                ))}
-              </div>
+            <motion.div 
+              className="lg:hidden order-1 pt-6 lg:order-2 w-full"
+              initial={{ opacity: 0, y: -20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+            >
+         
+              
               <div className="text-center">
-                <span className="text-white/70 text-sm">
+                <span className="text-white/80 text-sm font-semibold bg-white/15 backdrop-blur-md px-4 py-2 rounded-full border border-white/30 shadow-lg">
                   {currentSlide + 1} of {services.length} Services
                 </span>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Content - Service Image Card */}
             <div className="hidden lg:block">
